@@ -20,7 +20,7 @@ public class EventServerClient {
 
     private String result = null;
 
-    public void sendToEventServer(String ipInfo, final int timeOut) {
+    public void sendToEventServer(String ipInfo, final int timeOut, final String msg) {
         String[] s = ipInfo.split(":");
         final String host = s[0];
         final int port = Integer.parseInt(s[1]);
@@ -44,7 +44,7 @@ public class EventServerClient {
                             	@Override
                             	public void channelActive(ChannelHandlerContext ctx) throws Exception {
                             		Message message = new Message();
-                            		message.setContent("control command!");
+                            		message.setContent(msg);
                             		message.setMessageType(MessageType.CONTROL_COMMAND.value());
                             		message.setChannelId("12345678");
                             		ctx.writeAndFlush(message);
@@ -77,7 +77,7 @@ public class EventServerClient {
     }
 
     public void sendToEventServer(String ipInfo, String msg) {
-        sendToEventServer(ipInfo, 2000);
+        sendToEventServer(ipInfo, 2000, msg);
     }
 
     public String msgReceived() {
